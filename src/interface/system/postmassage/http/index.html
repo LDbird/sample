@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h2>postMassage DEMO</h2>
+
+    <script>
+        // 监听来自快应用的消息
+        function initQuickappListener(){
+            if(!window.system){
+                alert('请在快应用webview环境中打开此页面');
+                return;
+            }
+            window.system.onmessage =  dataStr => {
+                alert(`message from quickapp: ${dataStr}`);
+            }
+        }
+
+        initQuickappListener();
+    </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<template>
+  <stack style="flex-direction: column;">
+    <web id="web" src="{{url}}" allowthirdpartycookies="{{ true }}"></web>
+    <div style="margin-top: 200px; justify-content: space-around;">
+      <input onclick="normalPost" type="button" value="正常post请求11"></input>
+      <input onclick="thenPost" type="button" value="then回调中post"></input>
+    </div>
+  </stack>
+</template>
+
+<script>
+  import prompt from '@system.prompt'
+
+  export default ({
+    private: { // private：生命周期的文本列表
+      // url是快应用和网页建立联系的地址，这个url地址是需要在本地搭建的一个服务器地址；如在http文件夹下的index.html开服务
+      // 因为快应用调试器有缓存，可以生成随机数加载新的网页，这样就清除了上个网页的缓存
+      url: `http://10.232.74.147:9999/index.html?a=${Math.random() * 1000}`,
+      count: 0
+    },
+    postMsgToWeb(message) {
+      // postMessage方法：向网页发送消息
+      this.$element('web').postMessage({ message: message + (++this.count) }); 
+    },
+    normalPost() {
+      const message = '正常post请求'
+      prompt.showToast({ message }); // prompt弹窗消息
+      this.postMsgToWeb(message);
+    },
+    thenPost() {
+      this.getData()
+              .then(() => {
+                const message = `then回调中post`
+                prompt.showToast({ message });
+                this.postMsgToWeb(message);
+                this.$forceUpdate(); // 强制更新
+              })
+    },
+    getData() {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve()
+        }, 100)
+      })
+    }
+  })
+</script>
