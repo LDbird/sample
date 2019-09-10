@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Jump Page</title>
+    <style>
+        .container{
+            width: 100%;
+            height: 100%;
+            margin: 120px 0 0 75px;
+        }
+        .click-jump{
+            text-align: center;
+            width: 200px;
+            height: 30px;
+            border: 1px solid #0faeff;
+            border-radius: 1px;
+            background: #0faeff;
+            color: white;
+            margin-top: 10px;
+        }
+        </style>
+</head>
+<body>
+    <div class="container">
+        <input class="click-jump" id="post-page" value="这是跳转的新页面" type="button" />
+        <input class="click-jump" type="button" id="back" value="返回首页" />
+    </div>
+</body>
+<script>
+    function initQuickappListener() {
+        if (!window.system) {
+            console.log(window);
+            alert('请在快应用webview环境中打开此页面')
+            return
+        }
+        window.system.onmessage = dataStr => {
+            alert(`message from quickapp: ${dataStr}`)
+        }
+    };
+    initQuickappListener();
+
+    let postPage = document.getElementById('post-page');
+    let back = document.getElementById('back');
+
+    postPage.onclick = function postP(){
+        if(!window.system){
+            alert('请在快应用webview环境中打开此页面');
+            return;
+        }
+        window.system.postMessage('hello');
+    }
+
+    back.onclick = function backForword(){
+        if(!window.system){
+            alert('请在快应用webview环境中打开此页面');
+            return;
+        }
+        window.history.go(-1);
+        window.system.postMessage('world');
+        alert('exit');
+    }
+</script>
+</html>

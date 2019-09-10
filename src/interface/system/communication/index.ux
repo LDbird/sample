@@ -1,0 +1,32 @@
+<template>
+  <div class="doc-page">
+    <div class="page-title-wrap">
+      <text class="page-title">{{componentName}}</text>
+    </div>
+    <web id="web" src="{{url}}" onmessage="messagefn" trustedurl="{{trust}}"></web>
+  </div>
+</template>
+
+<script>
+  import prompt from '@system.prompt'
+
+  export default {
+    private: {
+      componentName:'通信',
+      // url是快应用和网页建立联系的地址，这个url地址是需要在本地搭建的一个服务器地址；
+      // 因为快应用调试器有缓存，可以生成随机数加载新的网页，这样就清除了上个网页的缓存
+      url: `http://10.232.74.74:9999/index.html?v1=` + Math.random(),
+      trust: [/^http:\/\/10.232.74.74/],
+    },
+    onInit(){
+      this.$page.setTitleBar({ text: '通信'});
+    },
+    messagefn(){
+      console.log('收到网页发来的消息');
+    }
+  }
+</script>
+
+<style>
+  @import '../common/css/common.css';
+</style>

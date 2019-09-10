@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>postMessage Demo</title>
+    <style>
+        .click{
+            width: 100%;
+            height: 100%;
+            margin: 120px 0 0 75px;
+        }
+        .click-jump{
+            text-align: center;
+            width: 200px;
+            height: 30px;
+            border: 1px solid #0faeff;
+            border-radius: 1px;
+            background: #0faeff;
+            color: white;
+        }
+        </style>
+</head>
+<body>
+    <div class="click">
+        <input class="click-jump" id="click-jump" type="button" value="点击跳转其他页面"></input>
+    </div>
+</body>
+</html>
+
+<script>
+    // 监听来自快应用的消息
+    function initQuickappListener() {
+        if (!window.system) {
+            console.log(window);
+            alert('请在快应用webview环境中打开此页面');
+            return;
+        }
+        window.system.onmessage = dataStr => {
+            alert(`message from quickapp: ${dataStr}`);
+        }
+    };
+    initQuickappListener();
+
+    let jump = document.getElementById("click-jump");
+    jump.onclick = function normalPost(){
+        if(!window.system){
+            alert('请在快应用中打开');
+            return;
+        }
+        window.system.postMessage('world');
+        window.location.href = `jumppage?v1=` + Math.random();
+    }
+</script>
+
